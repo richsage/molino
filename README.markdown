@@ -1,5 +1,7 @@
 # Molino
 
+[![Build Status](https://secure.travis-ci.org/pablodip/molino.png)](http://travis-ci.org/pablodip/molino)
+
 Molino is a small and fast library to make reusable tools persistence backend agnostic.
 
 Molino doesn't provide anything for defining models. This means that you have to define the models for the backend you want to work with in a normal way.
