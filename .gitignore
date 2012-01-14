@@ -1,0 +1,4 @@
+phpunit.xml
+/vendor/
+/tests/Model/Mandango/Base/
+/tests/Model/Mandango/Mapping/
