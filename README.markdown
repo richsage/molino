@@ -37,6 +37,12 @@ You can save models by using the `saveModel` method:
 
     $molino->saveModel($article);
 
+### Refreshing models
+
+You can refresh models by using the `refreshModel` method:
+
+    $molino->refreshModel($article);
+
 ### Deleting models
 
 You can delete models by using the `deleteModel` method:

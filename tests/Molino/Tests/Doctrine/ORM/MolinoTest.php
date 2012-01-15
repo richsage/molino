@@ -40,6 +40,26 @@ class MolinoTest extends TestCase
         $this->assertNotNull($article->getId());
     }
 
+    public function testRefreshModel()
+    {
+        $article = new Article();
+        $article->setTitle('foo');
+        $this->entityManager->persist($article);
+        $this->entityManager->flush();
+
+        $this->entityManager->getRepository('Model\Doctrine\ORM\Article')
+            ->createQueryBuilder('a')
+            ->update()
+            ->set('a.title', '?1')
+            ->setParameter(1, 'bar')
+            ->getQuery()
+            ->execute()
+        ;
+
+        $this->molino->refreshModel($article);
+        $this->assertSame('bar', $article->getTitle());
+    }
+
     public function testDeleteModel()
     {
         $article = new Article();

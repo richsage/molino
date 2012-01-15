@@ -42,6 +42,13 @@ interface MolinoInterface
     function saveModel($model);
 
     /**
+     * Refreshes a model.
+     *
+     * @param object $model The model.
+     */
+    function refreshModel($model);
+
+    /**
      * Deletes a model.
      *
      * @param object $model The model.

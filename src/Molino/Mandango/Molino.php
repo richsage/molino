@@ -70,6 +70,14 @@ class Molino implements MolinoInterface
     /**
      * {@inheritdoc}
      */
+    public function refreshModel($model)
+    {
+        $model->refresh();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function deleteModel($model)
     {
         $model->delete();

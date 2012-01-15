@@ -39,6 +39,14 @@ class MolinoTest extends TestCase
         $this->assertFalse($model->isNew());
     }
 
+    public function testRefreshModel()
+    {
+        $model = $this->mandango->create('Model\Mandango\Article')->setTitle('foo')->save();
+        $model->getRepository()->update(array('_id' => $model->getId()), array('$set' => array('title' => 'bar')));
+        $this->molino->refreshModel($model);
+        $this->assertSame('bar', $model->getTitle());
+    }
+
     public function testDeleteModel()
     {
         $model = $this->mandango->create('Model\Mandango\Article');

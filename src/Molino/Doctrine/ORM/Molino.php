@@ -62,6 +62,14 @@ class Molino implements MolinoInterface
     /**
      * {@inheritdoc}
      */
+    public function refreshModel($model)
+    {
+        $this->entityManager->refresh($model);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function deleteModel($model)
     {
         $this->entityManager->remove($model);
