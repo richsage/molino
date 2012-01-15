@@ -73,6 +73,8 @@ class SelectQuery extends BaseQuery implements SelectQueryInterface
             throw new \InvalidArgumentException(sprintf('The order "%s" is not valid.', $order));
         }
 
+        $field = $this->parseField($field);
+
         $this->mandangoQuery->sort(array($field => 'asc' === $order ? 1 : -1));
 
         return $this;

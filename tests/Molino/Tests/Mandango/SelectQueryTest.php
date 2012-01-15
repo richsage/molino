@@ -56,6 +56,12 @@ class SelectQueryTest extends TestCase
         $this->query->sort('name', 'no');
     }
 
+    public function testSortIdUnderscore()
+    {
+        $this->query->sort('id');
+        $this->assertSame(array('_id' => 1), $this->mandangoQuery->getSort());
+    }
+
     public function testLimit()
     {
         $this->assertSame($this->query, $this->query->limit(10));

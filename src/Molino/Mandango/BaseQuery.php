@@ -151,7 +151,7 @@ abstract class BaseQuery implements QueryInterface
     {
     }
 
-    private function parseField($field)
+    protected function parseField($field)
     {
         if ('id' === $field) {
             $field = '_id';
