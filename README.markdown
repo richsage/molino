@@ -10,7 +10,7 @@ Molino doesn't provide anything for defining models. This means that you have to
 
 You work with a molino, which is just an implementation of the `MolinoInterface`:
 
-    $molino = new MyMolino();
+    $molino = new Molino();
 
 ### Name
 
@@ -115,7 +115,7 @@ All queries implement a fluent interface:
 
     $articles = $molino->createSelectQuery('Model\Article')
         ->filterEqual('isActive', true)
-        ->order('createdAt', 'desc')
+        ->sort('createdAt', 'desc')
         ->limit(10)
         ->all()
     ;
