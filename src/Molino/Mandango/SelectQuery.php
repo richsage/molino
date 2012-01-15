@@ -128,6 +128,6 @@ class SelectQuery extends BaseQuery implements SelectQueryInterface
 
     protected function criteriaModified()
     {
-        $this->mandangoQuery->setCriteria($this->getCriteria());
+        $this->mandangoQuery->criteria($this->getCriteria());
     }
 }

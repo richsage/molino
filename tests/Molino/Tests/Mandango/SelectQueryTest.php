@@ -22,6 +22,12 @@ class SelectQueryTest extends TestCase
         $this->assertSame($this->mandangoQuery, $this->query->getMandangoQuery());
     }
 
+    public function testFiltering()
+    {
+        $this->query->filterEqual('foo', 'bar');
+        $this->assertSame(array('foo' => 'bar'), $this->mandangoQuery->getCriteria());
+    }
+
     public function testFields()
     {
         $this->assertSame($this->query, $this->query->fields(array('foo', 'bar')));
