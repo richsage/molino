@@ -97,6 +97,13 @@ Select queries implement both the `Countable` and `IteratorAggregate` interfaces
         // ...
     }
 
+Select queries allow you to create an adapter for [Pagerfanta](https://github.com/whiteoctober/Pagerfanta):
+
+    use Pagerfanta\Pagerfanta;
+
+    $adapter = $selectQuery->createPagerfantaAdapter();
+    $pagerfanta = new Pagerfanta($adapter);
+
 ### Updating
 
 You can set and increment fields:

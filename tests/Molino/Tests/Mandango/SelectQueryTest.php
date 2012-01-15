@@ -102,4 +102,11 @@ class SelectQueryTest extends TestCase
     {
         $this->assertEquals($this->mandangoQuery->getIterator(), $this->query->getIterator());
     }
+
+    public function testCreatePagerfantaAdapter()
+    {
+        $adapter = $this->query->createPagerfantaAdapter();
+        $this->assertInstanceOf('Pagerfanta\Adapter\MandangoAdapter', $adapter);
+        $this->assertSame($this->mandangoQuery, $adapter->getQuery());
+    }
 }

@@ -70,4 +70,13 @@ interface SelectQueryInterface extends QueryInterface, \Countable, \IteratorAggr
      * @return object|null One result or null if there is no results.
      */
     function one();
+
+    /**
+     * Returns a Pagerfanta adapter.
+     *
+     * https://github.com/whiteoctober/Pagerfanta
+     *
+     * @return AdapterInterface The adapter.
+     */
+    function createPagerfantaAdapter();
 }

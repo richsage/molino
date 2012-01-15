@@ -13,6 +13,7 @@ namespace Molino\Mandango;
 
 use Molino\SelectQueryInterface;
 use Mandango\Query;
+use Pagerfanta\Adapter\MandangoAdapter;
 
 /**
  * The select query for Mandango.
@@ -124,6 +125,14 @@ class SelectQuery extends BaseQuery implements SelectQueryInterface
     public function getIterator()
     {
         return $this->mandangoQuery->getIterator();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createPagerfantaAdapter()
+    {
+        return new MandangoAdapter($this->mandangoQuery);
     }
 
     protected function criteriaModified()

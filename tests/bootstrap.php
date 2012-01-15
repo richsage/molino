@@ -8,6 +8,7 @@ use Symfony\Component\ClassLoader\UniversalClassLoader;
 $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
     'Molino'                 => array(__DIR__.'/../src', __DIR__),
+    'Pagerfanta'             => $vendorDir.'/pagerfanta/src',
     'Mandango\\Mondator'     => $vendorDir.'/mondator/src',
     'Mandango'               => $vendorDir.'/mandango/src',
     'Doctrine\\Common'       => $vendorDir.'/doctrine-common/lib',

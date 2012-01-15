@@ -14,6 +14,7 @@ $revs = array(
 
 $deps = array(
     array('symfony', 'http://github.com/symfony/symfony', 'origin/master'),
+    array('pagerfanta', 'http://github.com/whiteoctober/Pagerfanta', 'origin/master'),
     array('twig', 'http://github.com/fabpot/Twig', 'origin/master'),
     array('mondator', 'http://github.com/mandango/mondator', 'origin/master'),
     array('mandango', 'http://github.com/mandango/mandango', 'origin/master'),

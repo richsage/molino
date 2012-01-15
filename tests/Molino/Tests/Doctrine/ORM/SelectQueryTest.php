@@ -107,4 +107,11 @@ class SelectQueryTest extends TestCase
         $this->assertInstanceOf('Traversable', $iterator);
         $this->assertSame($articles, iterator_to_array($iterator));
     }
+
+    public function testCreatePagerfantaAdapter()
+    {
+        $adapter = $this->query->createPagerfantaAdapter();
+        $this->assertInstanceOf('Pagerfanta\Adapter\DoctrineORMAdapter', $adapter);
+        $this->assertEquals($this->queryBuilder->getQuery(), $adapter->getQuery());
+    }
 }

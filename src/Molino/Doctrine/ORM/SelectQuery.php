@@ -13,6 +13,7 @@ namespace Molino\Doctrine\ORM;
 
 use Molino\SelectQueryInterface;
 use Doctrine\ORM\QueryBuilder;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
 
 /**
  * The select query for Doctrine ORM.
@@ -113,5 +114,13 @@ class SelectQuery extends BaseQuery implements SelectQueryInterface
     public function getIterator()
     {
         return new \ArrayIterator($this->all());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createPagerfantaAdapter()
+    {
+        return new DoctrineORMAdapter($this->getQueryBuilder());
     }
 }
