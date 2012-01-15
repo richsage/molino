@@ -16,6 +16,8 @@ use Molino\QueryInterface;
 /**
  * The base query for Mandango.
  *
+ * The field "id" is converted automatically to "_id" to get compatibility across backends.
+ *
  * @author Pablo Díez <pablodip@gmail.com>
  */
 abstract class BaseQuery implements QueryInterface
@@ -43,6 +45,8 @@ abstract class BaseQuery implements QueryInterface
      */
     public function filterEqual($field, $value)
     {
+        $field = $this->parseField($field);
+
         $this->criteria[$field] = $value;
         $this->criteriaModified();
 
@@ -54,6 +58,8 @@ abstract class BaseQuery implements QueryInterface
      */
     public function filterNotEqual($field, $value)
     {
+        $field = $this->parseField($field);
+
         $this->criteria[$field] = array('$ne' => $value);
         $this->criteriaModified();
 
@@ -65,6 +71,8 @@ abstract class BaseQuery implements QueryInterface
      */
     public function filterIn($field, array $values)
     {
+        $field = $this->parseField($field);
+
         $this->criteria[$field] = array('$in' => $values);
         $this->criteriaModified();
 
@@ -76,6 +84,8 @@ abstract class BaseQuery implements QueryInterface
      */
     public function filterNotIn($field, array $values)
     {
+        $field = $this->parseField($field);
+
         $this->criteria[$field] = array('$nin' => $values);
         $this->criteriaModified();
 
@@ -87,6 +97,8 @@ abstract class BaseQuery implements QueryInterface
      */
     public function filterGreater($field, $value)
     {
+        $field = $this->parseField($field);
+
         $this->criteria[$field] = array('$gt' => $value);
         $this->criteriaModified();
 
@@ -98,6 +110,8 @@ abstract class BaseQuery implements QueryInterface
      */
     public function filterLess($field, $value)
     {
+        $field = $this->parseField($field);
+
         $this->criteria[$field] = array('$lt' => $value);
         $this->criteriaModified();
 
@@ -109,6 +123,8 @@ abstract class BaseQuery implements QueryInterface
      */
     public function filterGreaterEqual($field, $value)
     {
+        $field = $this->parseField($field);
+
         $this->criteria[$field] = array('$gte' => $value);
         $this->criteriaModified();
 
@@ -120,6 +136,8 @@ abstract class BaseQuery implements QueryInterface
      */
     public function filterLessEqual($field, $value)
     {
+        $field = $this->parseField($field);
+
         $this->criteria[$field] = array('$lte' => $value);
         $this->criteriaModified();
 
@@ -131,5 +149,14 @@ abstract class BaseQuery implements QueryInterface
      */
     protected function criteriaModified()
     {
+    }
+
+    private function parseField($field)
+    {
+        if ('id' === $field) {
+            $field = '_id';
+        }
+
+        return $field;
     }
 }
