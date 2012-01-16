@@ -28,56 +28,56 @@ class BaseQueryTest extends TestCase
 
     public function testFilterEqual()
     {
-        $this->assertSame($this->query, $this->query->filterEqual('title', 'foo'));
+        $this->query->filter('title', '==', 'foo');
         $this->assertSame('SELECT FROM Model\Doctrine\ORM\Article m WHERE m.title = ?1', $this->queryBuilder->getDQL());
         $this->assertSame(array(1 => 'foo'), $this->queryBuilder->getParameters());
     }
 
     public function testFilterNotEqual()
     {
-        $this->assertSame($this->query, $this->query->filterNotEqual('title', 'foo'));
+        $this->query->filter('title', '!=', 'foo');
         $this->assertSame('SELECT FROM Model\Doctrine\ORM\Article m WHERE m.title <> ?1', $this->queryBuilder->getDQL());
         $this->assertSame(array(1 => 'foo'), $this->queryBuilder->getParameters());
     }
 
     public function testFilterIn()
     {
-        $this->assertSame($this->query, $this->query->filterIn('title', array('foo', 'bar')));
+        $this->query->filter('title', 'in', array('foo', 'bar'));
         $this->assertSame('SELECT FROM Model\Doctrine\ORM\Article m WHERE m.title IN ?1', $this->queryBuilder->getDQL());
         $this->assertSame(array(1 => array('foo', 'bar')), $this->queryBuilder->getParameters());
     }
 
     public function testFilterNotIn()
     {
-        $this->assertSame($this->query, $this->query->filterNotIn('title', array('foo', 'bar')));
+        $this->query->filter('title', 'not_in', array('foo', 'bar'));
         $this->assertSame('SELECT FROM Model\Doctrine\ORM\Article m WHERE m.title NOT IN ?1', $this->queryBuilder->getDQL());
         $this->assertSame(array(1 => array('foo', 'bar')), $this->queryBuilder->getParameters());
     }
 
     public function testFilterGreater()
     {
-        $this->assertSame($this->query, $this->query->filterGreater('age', 20));
+        $this->query->filter('age', '>', 20);
         $this->assertSame('SELECT FROM Model\Doctrine\ORM\Article m WHERE m.age > ?1', $this->queryBuilder->getDQL());
         $this->assertSame(array(1 => 20), $this->queryBuilder->getParameters());
     }
 
     public function testFilterLess()
     {
-        $this->assertSame($this->query, $this->query->filterLess('age', 20));
+        $this->query->filter('age', '<', 20);
         $this->assertSame('SELECT FROM Model\Doctrine\ORM\Article m WHERE m.age < ?1', $this->queryBuilder->getDQL());
         $this->assertSame(array(1 => 20), $this->queryBuilder->getParameters());
     }
 
     public function testFilterGreaterEqual()
     {
-        $this->assertSame($this->query, $this->query->filterGreaterEqual('age', 20));
+        $this->query->filter('age', '>=', 20);
         $this->assertSame('SELECT FROM Model\Doctrine\ORM\Article m WHERE m.age >= ?1', $this->queryBuilder->getDQL());
         $this->assertSame(array(1 => 20), $this->queryBuilder->getParameters());
     }
 
     public function testFilterLessEqual()
     {
-        $this->assertSame($this->query, $this->query->filterLessEqual('age', 20));
+        $this->query->filter('age', '<=', 20);
         $this->assertSame('SELECT FROM Model\Doctrine\ORM\Article m WHERE m.age <= ?1', $this->queryBuilder->getDQL());
         $this->assertSame(array(1 => 20), $this->queryBuilder->getParameters());
     }
@@ -85,9 +85,9 @@ class BaseQueryTest extends TestCase
     public function testSeveral()
     {
         $this->query
-            ->filterEqual('title', 'foo')
-            ->filterNotEqual('content', 'bar')
-            ->filterIn('author', array(1, 2))
+            ->filter('title', '==', 'foo')
+            ->filter('content', '!=', 'bar')
+            ->filter('author', 'in', array(1, 2))
         ;
         $this->assertSame('SELECT FROM Model\Doctrine\ORM\Article m WHERE m.title = ?1 AND m.content <> ?2 AND m.author IN ?3', $this->queryBuilder->getDQL());
         $this->assertSame(array(1 => 'foo', 2 => 'bar', 3 => array(1, 2)), $this->queryBuilder->getParameters());

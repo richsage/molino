@@ -11,7 +11,7 @@
 
 namespace Molino\Mandango;
 
-use Molino\QueryInterface;
+use Molino\BaseQuery as BaseBaseQuery;
 
 /**
  * The base query for Mandango.
@@ -20,8 +20,10 @@ use Molino\QueryInterface;
  *
  * @author Pablo Díez <pablodip@gmail.com>
  */
-abstract class BaseQuery implements QueryInterface
+abstract class BaseQuery extends BaseBaseQuery
 {
+    private $criteria;
+
     /**
      * Constructor.
      */
@@ -43,114 +45,6 @@ abstract class BaseQuery implements QueryInterface
     /**
      * {@inheritdoc}
      */
-    public function filterEqual($field, $value)
-    {
-        $field = $this->parseField($field);
-
-        $this->criteria[$field] = $value;
-        $this->criteriaModified();
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function filterNotEqual($field, $value)
-    {
-        $field = $this->parseField($field);
-
-        $this->criteria[$field] = array('$ne' => $value);
-        $this->criteriaModified();
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function filterIn($field, array $values)
-    {
-        $field = $this->parseField($field);
-
-        $this->criteria[$field] = array('$in' => $values);
-        $this->criteriaModified();
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function filterNotIn($field, array $values)
-    {
-        $field = $this->parseField($field);
-
-        $this->criteria[$field] = array('$nin' => $values);
-        $this->criteriaModified();
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function filterGreater($field, $value)
-    {
-        $field = $this->parseField($field);
-
-        $this->criteria[$field] = array('$gt' => $value);
-        $this->criteriaModified();
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function filterLess($field, $value)
-    {
-        $field = $this->parseField($field);
-
-        $this->criteria[$field] = array('$lt' => $value);
-        $this->criteriaModified();
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function filterGreaterEqual($field, $value)
-    {
-        $field = $this->parseField($field);
-
-        $this->criteria[$field] = array('$gte' => $value);
-        $this->criteriaModified();
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function filterLessEqual($field, $value)
-    {
-        $field = $this->parseField($field);
-
-        $this->criteria[$field] = array('$lte' => $value);
-        $this->criteriaModified();
-
-        return $this;
-    }
-
-    /**
-     * This method is called when the criteria is modified by a filter
-     */
-    protected function criteriaModified()
-    {
-    }
-
     protected function parseField($field)
     {
         if ('id' === $field) {
@@ -158,5 +52,84 @@ abstract class BaseQuery implements QueryInterface
         }
 
         return $field;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function filterEqual($field, $value)
+    {
+        $this->criteria[$field] = $value;
+        $this->criteriaModified();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function filterNotEqual($field, $value)
+    {
+        $this->criteria[$field] = array('$ne' => $value);
+        $this->criteriaModified();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function filterIn($field, array $values)
+    {
+        $this->criteria[$field] = array('$in' => $values);
+        $this->criteriaModified();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function filterNotIn($field, array $values)
+    {
+        $this->criteria[$field] = array('$nin' => $values);
+        $this->criteriaModified();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function filterGreater($field, $value)
+    {
+        $this->criteria[$field] = array('$gt' => $value);
+        $this->criteriaModified();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function filterLess($field, $value)
+    {
+        $this->criteria[$field] = array('$lt' => $value);
+        $this->criteriaModified();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function filterGreaterEqual($field, $value)
+    {
+        $this->criteria[$field] = array('$gte' => $value);
+        $this->criteriaModified();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function filterLessEqual($field, $value)
+    {
+        $this->criteria[$field] = array('$lte' => $value);
+        $this->criteriaModified();
+    }
+
+    /**
+     * This method is called when the criteria is modified by a filter
+     */
+    protected function criteriaModified()
+    {
     }
 }

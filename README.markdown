@@ -61,16 +61,16 @@ Molino has three types of queries: select, update and delete, which you can crea
 
 The three types of queries can be filtered:
 
-    $query->filterEqual('name', 'Pablo');
-    $query->filterNotEqual('name', 'Pablo');
+    $query->filter('name', '==', 'Pablo');
+    $query->filter('name', '!=', 'Pablo');
 
-    $query->filterIn('name', array('Pablo', 'Pepe'));
-    $query->filterNotIn('name', array('Pablo', 'Pepe'));
+    $query->filter('name', 'in', array('Pablo', 'Pepe'));
+    $query->filter('name', 'not_in', array('Pablo', 'Pepe'));
 
-    $query->filterGreater('age', 20);
-    $query->filterLess('age', 20);
-    $query->filterGreaterEqual('age', 20);
-    $query->filterLessEqual('age', 20);
+    $query->filter('age', '>', 20);
+    $query->filter('age', '<', 20);
+    $query->filter('age', '>=, 20);
+    $query->filter('age', '<=', 2');
 
 ### Selecting
 

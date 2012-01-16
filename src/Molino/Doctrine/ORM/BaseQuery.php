@@ -11,7 +11,7 @@
 
 namespace Molino\Doctrine\ORM;
 
-use Molino\QueryInterface;
+use Molino\BaseQuery as BaseBaseQuery;
 use Doctrine\ORM\QueryBuilder;
 
 /**
@@ -19,7 +19,7 @@ use Doctrine\ORM\QueryBuilder;
  *
  * @author Pablo Díez <pablodip@gmail.com>
  */
-abstract class BaseQuery implements QueryInterface
+abstract class BaseQuery extends BaseBasequery
 {
     private $queryBuilder;
     private $lastParameterId;
@@ -59,81 +59,65 @@ abstract class BaseQuery implements QueryInterface
     /**
      * {@inheritdoc}
      */
-    public function filterEqual($field, $value)
+    protected function filterEqual($field, $value)
     {
         $this->andWhere('=', $field, $value);
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function filterNotEqual($field, $value)
+    protected function filterNotEqual($field, $value)
     {
         $this->andWhere('<>', $field, $value);
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function filterIn($field, array $values)
+    protected function filterIn($field, array $values)
     {
         $this->andWhere('IN', $field, $values);
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function filterNotIn($field, array $values)
+    protected function filterNotIn($field, array $values)
     {
         $this->andWhere('NOT IN', $field, $values);
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function filterGreater($field, $value)
+    protected function filterGreater($field, $value)
     {
         $this->andWhere('>', $field, $value);
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function filterLess($field, $value)
+    protected function filterLess($field, $value)
     {
         $this->andWhere('<', $field, $value);
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function filterGreaterEqual($field, $value)
+    protected function filterGreaterEqual($field, $value)
     {
         $this->andWhere('>=', $field, $value);
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function filterLessEqual($field, $value)
+    protected function filterLessEqual($field, $value)
     {
         $this->andWhere('<=', $field, $value);
-
-        return $this;
     }
 
     /**
