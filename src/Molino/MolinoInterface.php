@@ -32,28 +32,28 @@ interface MolinoInterface
      *
      * @return object The model.
      */
-    function createModel($modelClass);
+    function create($modelClass);
 
     /**
      * Saves a model.
      *
      * @param object $model The model.
      */
-    function saveModel($model);
+    function save($model);
 
     /**
      * Refreshes a model.
      *
      * @param object $model The model.
      */
-    function refreshModel($model);
+    function refresh($model);
 
     /**
      * Deletes a model.
      *
      * @param object $model The model.
      */
-    function deleteModel($model);
+    function delete($model);
 
     /**
      * Creates a select query.

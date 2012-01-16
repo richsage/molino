@@ -45,7 +45,7 @@ class Molino implements MolinoInterface
     /**
      * {@inheritdoc}
      */
-    public function createModel($class)
+    public function create($class)
     {
         return new $class;
     }
@@ -53,7 +53,7 @@ class Molino implements MolinoInterface
     /**
      * {@inheritdoc}
      */
-    public function saveModel($model)
+    public function save($model)
     {
         $this->entityManager->persist($model);
         $this->entityManager->flush();
@@ -62,7 +62,7 @@ class Molino implements MolinoInterface
     /**
      * {@inheritdoc}
      */
-    public function refreshModel($model)
+    public function refresh($model)
     {
         $this->entityManager->refresh($model);
     }
@@ -70,7 +70,7 @@ class Molino implements MolinoInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteModel($model)
+    public function delete($model)
     {
         $this->entityManager->remove($model);
         $this->entityManager->flush();

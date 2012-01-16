@@ -22,7 +22,7 @@ Each molino must have a name:
 
 You can create models by using the `createModel` method with the model class as the first argument:
 
-    $article = $molino->createModel('Model\Article');
+    $article = $molino->create('Model\Article');
 
 ### Setting and getting data
 
@@ -35,19 +35,19 @@ As using setters and getters is a convention nowadays, Molino doesn't include an
 
 You can save models by using the `saveModel` method:
 
-    $molino->saveModel($article);
+    $molino->save($article);
 
 ### Refreshing models
 
 You can refresh models by using the `refreshModel` method:
 
-    $molino->refreshModel($article);
+    $molino->refresh($article);
 
 ### Deleting models
 
 You can delete models by using the `deleteModel` method:
 
-    $molino->deleteModel($article);
+    $molino->delete($article);
 
 ## Querying
 

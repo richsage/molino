@@ -54,7 +54,7 @@ class Molino implements MolinoInterface
     /**
      * {@inheritdoc}
      */
-    public function createModel($modelClass)
+    public function create($modelClass)
     {
         return $this->mandango->create($modelClass);
     }
@@ -62,7 +62,7 @@ class Molino implements MolinoInterface
     /**
      * {@inheritdoc}
      */
-    public function saveModel($model)
+    public function save($model)
     {
         $model->save();
     }
@@ -70,7 +70,7 @@ class Molino implements MolinoInterface
     /**
      * {@inheritdoc}
      */
-    public function refreshModel($model)
+    public function refresh($model)
     {
         $model->refresh();
     }
@@ -78,7 +78,7 @@ class Molino implements MolinoInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteModel($model)
+    public function delete($model)
     {
         $model->delete();
     }

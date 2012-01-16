@@ -26,21 +26,21 @@ class MolinoTest extends TestCase
         $this->assertSame('doctrine_orm', $this->molino->getName());
     }
 
-    public function testCreateModel()
+    public function testCreate()
     {
-        $model = $this->molino->createModel('Model\Doctrine\ORM\Article');
+        $model = $this->molino->create('Model\Doctrine\ORM\Article');
         $this->assertInstanceOf('Model\Doctrine\ORM\Article', $model);
     }
 
-    public function testSaveModel()
+    public function testSave()
     {
         $article = new Article();
         $article->setTitle('foo');
-        $this->molino->saveModel($article);
+        $this->molino->save($article);
         $this->assertNotNull($article->getId());
     }
 
-    public function testRefreshModel()
+    public function testRefresh()
     {
         $article = new Article();
         $article->setTitle('foo');
@@ -56,11 +56,11 @@ class MolinoTest extends TestCase
             ->execute()
         ;
 
-        $this->molino->refreshModel($article);
+        $this->molino->refresh($article);
         $this->assertSame('bar', $article->getTitle());
     }
 
-    public function testDeleteModel()
+    public function testDelete()
     {
         $article = new Article();
         $article->setTitle('foo');
@@ -68,7 +68,7 @@ class MolinoTest extends TestCase
         $this->entityManager->flush();
 
         $id = $article->getId();
-        $this->molino->deleteModel($article);
+        $this->molino->delete($article);
         $this->assertNull($this->entityManager->find('Model\Doctrine\ORM\Article', $id));
     }
 

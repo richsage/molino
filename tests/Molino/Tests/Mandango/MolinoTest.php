@@ -25,33 +25,33 @@ class MolinoTest extends TestCase
         $this->assertSame('mandango', $this->molino->getName());
     }
 
-    public function testCreateModel()
+    public function testCreate()
     {
-        $model = $this->molino->createModel('Model\Mandango\Article');
+        $model = $this->molino->create('Model\Mandango\Article');
         $this->assertInstanceOf('Model\Mandango\Article', $model);
         $this->assertTrue($model->isNew());
     }
 
-    public function testSaveModel()
+    public function testSave()
     {
         $model = $this->mandango->create('Model\Mandango\Article');
-        $this->molino->saveModel($model);
+        $this->molino->save($model);
         $this->assertFalse($model->isNew());
     }
 
-    public function testRefreshModel()
+    public function testRefresh()
     {
         $model = $this->mandango->create('Model\Mandango\Article')->setTitle('foo')->save();
         $model->getRepository()->update(array('_id' => $model->getId()), array('$set' => array('title' => 'bar')));
-        $this->molino->refreshModel($model);
+        $this->molino->refresh($model);
         $this->assertSame('bar', $model->getTitle());
     }
 
-    public function testDeleteModel()
+    public function testDelete()
     {
         $model = $this->mandango->create('Model\Mandango\Article');
         $model->save();
-        $this->molino->deleteModel($model);
+        $this->molino->delete($model);
         $repository = $this->mandango->getRepository('Model\Mandango\Article');
         $this->assertNull($repository->createQuery(array('_id' => $model->getId()))->one());
     }
