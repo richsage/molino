@@ -11,7 +11,7 @@
 
 namespace Molino\Mandango;
 
-use Molino\QueryInterface;
+use Molino\BaseQuery as BaseBaseQuery;
 
 /**
  * The base query for Mandango.
@@ -20,7 +20,7 @@ use Molino\QueryInterface;
  *
  * @author Pablo Díez <pablodip@gmail.com>
  */
-abstract class BaseQuery implements QueryInterface
+abstract class BaseQuery extends BaseBaseQuery
 {
     /**
      * Constructor.

@@ -72,6 +72,19 @@ The three types of queries can be filtered:
     $query->filterGreaterEqual('age', 20);
     $query->filterLessEqual('age', 20);
 
+You can also use the `filter` method, which links to those methods:
+
+    $query->filter('name', '==', 'Pablo');
+    $query->filter('name', '!=', 'Pablo');
+
+    $query->filter('name', 'in', array('Pablo', 'Pepe'));
+    $query->filter('name', 'not_in', array('Pablo', 'Pepe'));
+
+    $query->filter('age', '>', 20);
+    $query->filter('age', '<', 20);
+    $query->filter('age', '>=, 20);
+    $query->filter('age', '<=', 2');
+
 ### Selecting
 
 You can specify the fields you want to select:

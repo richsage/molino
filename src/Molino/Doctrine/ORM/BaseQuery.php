@@ -11,7 +11,7 @@
 
 namespace Molino\Doctrine\ORM;
 
-use Molino\QueryInterface;
+use Molino\BaseQuery as BaseBaseQuery;
 use Doctrine\ORM\QueryBuilder;
 
 /**
@@ -19,7 +19,7 @@ use Doctrine\ORM\QueryBuilder;
  *
  * @author Pablo Díez <pablodip@gmail.com>
  */
-abstract class BaseQuery implements QueryInterface
+abstract class BaseQuery extends BaseBaseQuery
 {
     private $queryBuilder;
     private $lastParameterId;
