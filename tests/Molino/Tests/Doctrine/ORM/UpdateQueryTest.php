@@ -41,7 +41,7 @@ class UpdateQueryTest extends TestCase
         $articles = $this->loadArticles(10);
 
         $this->query
-            ->filter('id', '==', $articles[0]->getId())
+            ->filterEqual('id', $articles[0]->getId())
             ->set('title', 'foo')
             ->execute()
         ;

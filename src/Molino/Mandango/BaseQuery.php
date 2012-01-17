@@ -11,7 +11,7 @@
 
 namespace Molino\Mandango;
 
-use Molino\BaseQuery as BaseBaseQuery;
+use Molino\QueryInterface;
 
 /**
  * The base query for Mandango.
@@ -20,10 +20,8 @@ use Molino\BaseQuery as BaseBaseQuery;
  *
  * @author Pablo Díez <pablodip@gmail.com>
  */
-abstract class BaseQuery extends BaseBaseQuery
+abstract class BaseQuery implements QueryInterface
 {
-    private $criteria;
-
     /**
      * Constructor.
      */
@@ -45,85 +43,105 @@ abstract class BaseQuery extends BaseBaseQuery
     /**
      * {@inheritdoc}
      */
-    protected function parseField($field)
+    public function filterEqual($field, $value)
     {
-        if ('id' === $field) {
-            $field = '_id';
-        }
+        $field = $this->parseField($field);
 
-        return $field;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function filterEqual($field, $value)
-    {
         $this->criteria[$field] = $value;
         $this->criteriaModified();
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function filterNotEqual($field, $value)
+    public function filterNotEqual($field, $value)
     {
+        $field = $this->parseField($field);
+
         $this->criteria[$field] = array('$ne' => $value);
         $this->criteriaModified();
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function filterIn($field, array $values)
+    public function filterIn($field, array $values)
     {
+        $field = $this->parseField($field);
+
         $this->criteria[$field] = array('$in' => $values);
         $this->criteriaModified();
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function filterNotIn($field, array $values)
+    public function filterNotIn($field, array $values)
     {
+        $field = $this->parseField($field);
+
         $this->criteria[$field] = array('$nin' => $values);
         $this->criteriaModified();
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function filterGreater($field, $value)
+    public function filterGreater($field, $value)
     {
+        $field = $this->parseField($field);
+
         $this->criteria[$field] = array('$gt' => $value);
         $this->criteriaModified();
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function filterLess($field, $value)
+    public function filterLess($field, $value)
     {
+        $field = $this->parseField($field);
+
         $this->criteria[$field] = array('$lt' => $value);
         $this->criteriaModified();
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function filterGreaterEqual($field, $value)
+    public function filterGreaterEqual($field, $value)
     {
+        $field = $this->parseField($field);
+
         $this->criteria[$field] = array('$gte' => $value);
         $this->criteriaModified();
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function filterLessEqual($field, $value)
+    public function filterLessEqual($field, $value)
     {
+        $field = $this->parseField($field);
+
         $this->criteria[$field] = array('$lte' => $value);
         $this->criteriaModified();
+
+        return $this;
     }
 
     /**
@@ -131,5 +149,14 @@ abstract class BaseQuery extends BaseBaseQuery
      */
     protected function criteriaModified()
     {
+    }
+
+    protected function parseField($field)
+    {
+        if ('id' === $field) {
+            $field = '_id';
+        }
+
+        return $field;
     }
 }

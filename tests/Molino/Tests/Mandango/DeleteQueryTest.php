@@ -35,7 +35,7 @@ class DeleteQueryTest extends TestCase
         ;
 
         $query = new DeleteQuery($repository);
-        $query->filter('name', '==', 'foo');
+        $query->filterEqual('name', 'foo');
         $query->execute();
     }
 }

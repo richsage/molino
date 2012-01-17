@@ -52,7 +52,7 @@ class UpdateQueryTest extends TestCase
         ;
 
         $query = new UpdateQuery($repository);
-        $query->filter('name', '==', 'foo');
+        $query->filterEqual('name', 'foo');
         $query->set('name', 'bar');
         $query->execute();
     }

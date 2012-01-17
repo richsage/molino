@@ -19,27 +19,82 @@ namespace Molino;
 interface QueryInterface
 {
     /**
-     * Adds a filter.
+     * Adds a filter equal.
      *
-     * The comparison supported are:
-     *
-     *   * "=="
-     *   * "!="
-     *   * "in": requires an array as value.
-     *   * "not_in": requires an array as value.
-     *   * ">"
-     *   * "<"
-     *   * ">="
-     *   * ">="
-     *
-     * @param string $field      The field.
-     * @param string $comparison The comparison.
-     * @param mixed  $value      The value.
+     * @param string $field The field.
+     * @param mixed  $value The value.
      *
      * @return QueryInterface The query (fluent interface).
-     *
-     * @throws \InvalidArgumentException If the comparison is not supported.
-     * @throws \InvalidArgumentException If the value must be an array and it is not.
      */
-    function filter($name, $comparation, $value);
+    function filterEqual($field, $value);
+
+    /**
+     * Adds a filter no equal.
+     *
+     * @param string $field The field.
+     * @param mixed  $value The value.
+     *
+     * @return QueryInterface The query (fluent interface).
+     */
+    function filterNotEqual($field, $value);
+
+    /**
+     * Adds a filter in.
+     *
+     * @param string $field  The field.
+     * @param array  $values The values.
+     *
+     * @return QueryInterface The query (fluent interface).
+     */
+    function filterIn($field, array $values);
+
+    /**
+     * Adds a filter not in.
+     *
+     * @param string $field  The field.
+     * @param array  $values The values.
+     *
+     * @return QueryInterface The query (fluent interface).
+     */
+    function filterNotIn($field, array $values);
+
+    /**
+     * Adds a filter greater.
+     *
+     * @param string $field The field.
+     * @param mixed  $value The value.
+     *
+     * @return QueryInterface The query (fluent interface).
+     */
+    function filterGreater($field, $value);
+
+    /**
+     * Adds a filter less.
+     *
+     * @param string $field The field.
+     * @param mixed  $value The value.
+     *
+     * @return QueryInterface The query (fluent interface).
+     */
+    function filterLess($field, $value);
+
+    /**
+     * Adds a filter greater equal.
+     *
+     * @param string $field The field.
+     * @param mixed  $value The value.
+     *
+     * @return QueryInterface The query (fluent interface).
+     */
+    function filterGreaterEqual($field, $value);
+
+    /**
+     * Adds a filter less equal.
+     *
+     * @param string $field The field.
+     * @param mixed  $value The value.
+     *
+     * @return QueryInterface The query (fluent interface).
+     */
+    function filterLessEqual($field, $value);
 }
