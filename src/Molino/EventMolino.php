@@ -63,7 +63,7 @@ class EventMolino implements MolinoInterface
      */
     public function getName()
     {
-        return $this->molino->getName();
+        return 'event';
     }
 
     /**

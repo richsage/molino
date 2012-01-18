@@ -27,13 +27,7 @@ class EventMolinoTest extends \PHPUnit_Framework_TestCase
 
     public function testGetName()
     {
-        $this->molino
-            ->expects($this->once())
-            ->method('getName')
-            ->will($this->returnValue('foo'))
-        ;
-
-        $this->assertSame('foo', $this->eventMolino->getName());
+        $this->assertSame('event', $this->eventMolino->getName());
     }
 
     public function testCreate()
