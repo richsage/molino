@@ -60,21 +60,24 @@ class MolinoTest extends TestCase
     {
         $query = $this->molino->createSelectQuery('Model\Mandango\Article');
         $this->assertInstanceOf('Molino\Mandango\SelectQuery', $query);
-        $this->assertInstanceOf('Model\Mandango\ArticleQuery', $query->getMandangoQuery());
+        $this->assertSame($this->molino, $query->getMolino());
+        $this->assertSame('Model\Mandango\Article', $query->getModelClass());
     }
 
     public function testCreateUpdateQuery()
     {
         $query = $this->molino->createUpdateQuery('Model\Mandango\Article');
         $this->assertInstanceOf('Molino\Mandango\UpdateQuery', $query);
-        $this->assertInstanceOf('Model\Mandango\ArticleRepository', $query->getRepository());
+        $this->assertSame($this->molino, $query->getMolino());
+        $this->assertSame('Model\Mandango\Article', $query->getModelClass());
     }
 
     public function testCreateDeleteQuery()
     {
         $query = $this->molino->createDeleteQuery('Model\Mandango\Article');
         $this->assertInstanceOf('Molino\Mandango\DeleteQuery', $query);
-        $this->assertInstanceOf('Model\Mandango\ArticleRepository', $query->getRepository());
+        $this->assertSame($this->molino, $query->getMolino());
+        $this->assertSame('Model\Mandango\Article', $query->getModelClass());
     }
 
     public function testFindOneById()

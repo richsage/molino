@@ -11,16 +11,31 @@ class BaseQuery extends OriginalBaseQuery
 
 class BaseQueryTest extends \PHPUnit_Framework_TestCase
 {
+    private $molino;
+    private $modelClass;
     private $query;
 
     protected function setUp()
     {
-        $this->query = new BaseQuery();
+        $this->molino = $this->getMockBuilder('Molino\Mandango\Molino')->disableOriginalConstructor()->getMock();
+        $this->modelClass = 'Model\Article';
+        $this->query = new BaseQuery($this->molino, $this->modelClass);
     }
 
-    public function testGetCriteria()
+    public function testConstructorGetCriteria()
     {
+        $this->assertSame($this->molino, $this->query->getMolino());
+        $this->assertSame($this->modelClass, $this->query->getModelClass());
         $this->assertSame(array(), $this->query->getCriteria());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSetMolinoNotMandango()
+    {
+        $molino = $this->getMock('Molino\MolinoInterface');
+        $this->query->setMolino($molino);
     }
 
     public function testFilterEqual()

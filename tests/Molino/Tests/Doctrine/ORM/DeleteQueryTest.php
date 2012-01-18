@@ -2,26 +2,27 @@
 
 namespace Molino\Tests\Doctrine\ORM;
 
+use Molino\Doctrine\ORM\Molino;
 use Molino\Doctrine\ORM\DeleteQuery;
 use Molino\Doctrine\ORM\SelectQuery;
 use Doctrine\ORM\QueryBuilder;
 
 class DeleteQueryTest extends TestCase
 {
-    private $queryBuilder;
     private $query;
 
     protected function setUp()
     {
         parent::setUp();
 
-        $this->queryBuilder = $this->entityManager->createQueryBuilder()->from('Model\Doctrine\ORM\Article', 'm');
-        $this->query = new DeleteQuery($this->queryBuilder);
+        $this->molino = new Molino($this->entityManager);
+        $this->modelClass = 'Model\Doctrine\ORM\Article';
+        $this->query = new DeleteQuery($this->molino, $this->modelClass);
     }
 
-    public function testConstructorDelete()
+    public function testConfigureQueryBuilder()
     {
-        $this->assertSame(QueryBuilder::DELETE, $this->queryBuilder->getType());
+        $this->assertSame(QueryBuilder::DELETE, $this->query->getQueryBuilder()->getType());
     }
 
     public function testExecute()
@@ -29,7 +30,7 @@ class DeleteQueryTest extends TestCase
         $this->loadArticles(10);
         $this->query->execute();
 
-        $selectQuery = new SelectQuery($this->queryBuilder);
+        $selectQuery = new SelectQuery($this->molino, $this->modelClass);
         $this->assertSame(0, $selectQuery->count());
     }
 }

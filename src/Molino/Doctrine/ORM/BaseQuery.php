@@ -22,19 +22,27 @@ use Doctrine\ORM\QueryBuilder;
 abstract class BaseQuery extends BaseBaseQuery
 {
     private $queryBuilder;
-    private $lastParameterId;
+    private $lastParameterId = 0;
 
     /**
-     * Constructor.
+     * Returns the query builder.
      *
-     * @param QueryBuilder A query builder.
+     * @return QueryBuilder The query builder.
      */
-    public function __construct(QueryBuilder $queryBuilder)
+    public function getQueryBuilder()
     {
-        $this->configureQueryBuilder($queryBuilder);
+        if (null === $this->queryBuilder) {
+            $queryBuilder = $this
+                ->getMolino()
+                ->getEntityManager()
+                ->createQueryBuilder()
+                ->from($this->getModelClass(), 'm')
+            ;
+            $this->configureQueryBuilder($queryBuilder);
+            $this->queryBuilder = $queryBuilder;
+        }
 
-        $this->queryBuilder = $queryBuilder;
-        $this->lastParameterId = 0;
+        return $this->queryBuilder;
     }
 
     /**
@@ -44,16 +52,6 @@ abstract class BaseQuery extends BaseBaseQuery
      */
     protected function configureQueryBuilder(QueryBuilder $queryBuilder)
     {
-    }
-
-    /**
-     * Returns the query builder.
-     *
-     * @return QueryBuilder The query builder.
-     */
-    public function getQueryBuilder()
-    {
-        return $this->queryBuilder;
     }
 
     /**
@@ -149,8 +147,8 @@ abstract class BaseQuery extends BaseBaseQuery
     private function andWhere($comparison, $field, $value)
     {
         $parameterId = $this->generateParameterId();
-        $rootAlias = $this->queryBuilder->getRootAlias();
-        $this->queryBuilder->andWhere(sprintf('%s.%s %s ?%d', $rootAlias, $field, $comparison, $parameterId));
-        $this->queryBuilder->setParameter($parameterId, $value);
+        $rootAlias = $this->getQueryBuilder()->getRootAlias();
+        $this->getQueryBuilder()->andWhere(sprintf('%s.%s %s ?%d', $rootAlias, $field, $comparison, $parameterId));
+        $this->getQueryBuilder()->setParameter($parameterId, $value);
     }
 }

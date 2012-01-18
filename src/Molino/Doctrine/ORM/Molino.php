@@ -81,7 +81,7 @@ class Molino implements MolinoInterface
      */
     public function createSelectQuery($modelClass)
     {
-        return new SelectQuery($this->entityManager->createQueryBuilder()->from($modelClass, 'm'));
+        return new SelectQuery($this, $modelClass);
     }
 
     /**
@@ -89,7 +89,7 @@ class Molino implements MolinoInterface
      */
     public function createUpdateQuery($modelClass)
     {
-        return new UpdateQuery($this->entityManager->createQueryBuilder()->from($modelClass, 'm'));
+        return new UpdateQuery($this, $modelClass);
     }
 
     /**
@@ -97,7 +97,7 @@ class Molino implements MolinoInterface
      */
     public function createDeleteQuery($modelClass)
     {
-        return new DeleteQuery($this->entityManager->createQueryBuilder()->from($modelClass, 'm'));
+        return new DeleteQuery($this, $modelClass);
     }
 
     /**

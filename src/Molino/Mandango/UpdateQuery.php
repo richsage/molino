@@ -12,7 +12,7 @@
 namespace Molino\Mandango;
 
 use Molino\UpdateQueryInterface;
-use Mandango\Repository;
+use Molino\MolinoInterface;
 
 /**
  * The update query for Mandango.
@@ -21,28 +21,16 @@ use Mandango\Repository;
  */
 class UpdateQuery extends BaseQuery implements UpdateQueryInterface
 {
-    private $repository;
     private $newObject;
 
     /**
-     * Constructor.
-     *
-     * @param Repository $repository A repository.
+     * {@inheritdoc}
      */
-    public function __construct(Repository $repository)
+    public function __construct(MolinoInterface $molino, $modelClass)
     {
-        parent::__construct();
+        parent::__construct($molino, $modelClass);
 
-        $this->repository = $repository;
         $this->newObject = array();
-    }
-
-    /**
-     * Returns the repository.
-     */
-    public function getRepository()
-    {
-        return $this->repository;
     }
 
     /**
@@ -82,6 +70,11 @@ class UpdateQuery extends BaseQuery implements UpdateQueryInterface
      */
     public function execute()
     {
-        $this->repository->update($this->getCriteria(), $this->getNewObject());
+        $this
+            ->getMolino()
+            ->getMandango()
+            ->getRepository($this->getModelClass())
+            ->update($this->getCriteria(), $this->getNewObject())
+        ;
     }
 }

@@ -12,7 +12,6 @@
 namespace Molino\Mandango;
 
 use Molino\DeleteQueryInterface;
-use Mandango\Repository;
 
 /**
  * The delete query for Mandango.
@@ -21,35 +20,16 @@ use Mandango\Repository;
  */
 class DeleteQuery extends BaseQuery implements DeleteQueryInterface
 {
-    private $repository;
-
-    /**
-     * Constructor.
-     *
-     * @param Repository $repository A repository.
-     */
-    public function __construct(Repository $repository)
-    {
-        parent::__construct();
-
-        $this->repository = $repository;
-    }
-
-    /**
-     * Returns the repository.
-     *
-     * @param Repository The repository.
-     */
-    public function getRepository()
-    {
-        return $this->repository;
-    }
-
     /**
      * {@inheritdoc}
      */
     public function execute()
     {
-        $this->repository->remove($this->getCriteria());
+        $this
+            ->getMolino()
+            ->getMandango()
+            ->getRepository($this->getModelClass())
+            ->remove($this->getCriteria())
+        ;
     }
 }

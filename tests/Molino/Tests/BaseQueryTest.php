@@ -3,13 +3,16 @@
 namespace Molino\Tests;
 
 use Molino\BaseQuery as OriginalBaseQuery;
+use Molino\MolinoInterface;
 
 class BaseQuery extends OriginalBaseQuery
 {
     private $filters;
 
-    public function __construct()
+    public function __construct(MolinoInterface $molino, $modelClass)
     {
+        parent::__construct($molino, $modelClass);
+
         $this->fitlers = array();
     }
 
@@ -61,11 +64,28 @@ class BaseQuery extends OriginalBaseQuery
 
 class BaseQueryTest extends \PHPUnit_Framework_TestCase
 {
+    private $molino;
+    private $modelClass;
     private $query;
 
     protected function setUp()
     {
-        $this->query = new BaseQuery();
+        $this->molino = $this->getMock('Molino\MolinoInterface');
+        $this->modelClass = 'Model\Article';
+        $this->query = new BaseQuery($this->molino, $this->modelClass);
+    }
+
+    public function testSetGetMolino()
+    {
+        $this->assertSame($this->molino, $this->query->getMolino());
+        $molino = $this->getMock('Molino\MolinoInterface');
+        $this->query->setMolino($molino);
+        $this->assertSame($molino, $this->query->getMolino());
+    }
+
+    public function testGetModelClass()
+    {
+        $this->assertSame($this->modelClass, $this->query->getModelClass());
     }
 
     public function testFilterEqual()

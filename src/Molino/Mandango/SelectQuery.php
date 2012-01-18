@@ -12,7 +12,6 @@
 namespace Molino\Mandango;
 
 use Molino\SelectQueryInterface;
-use Mandango\Query;
 use Pagerfanta\Adapter\MandangoAdapter;
 
 /**
@@ -25,24 +24,21 @@ class SelectQuery extends BaseQuery implements SelectQueryInterface
     private $mandangoQuery;
 
     /**
-     * Constructor.
-     *
-     * @param Query $mandangoQuery A mandango query.
-     */
-    public function __construct(Query $mandangoQuery)
-    {
-        parent::__construct();
-
-        $this->mandangoQuery = $mandangoQuery;
-    }
-
-    /**
      * Returns the mandango query.
      *
      * @return Query The mandango query.
      */
     public function getMandangoQuery()
     {
+        if (null === $this->mandangoQuery) {
+            $this->mandangoQuery = $this
+                ->getMolino()
+                ->getMandango()
+                ->getRepository($this->getModelClass())
+                ->createQuery()
+            ;
+        }
+
         return $this->mandangoQuery;
     }
 
@@ -60,7 +56,7 @@ class SelectQuery extends BaseQuery implements SelectQueryInterface
             $parsedFields[$field] = 1;
         }
 
-        $this->mandangoQuery->fields($parsedFields);
+        $this->getMandangoQuery()->fields($parsedFields);
 
         return $this;
     }
@@ -76,7 +72,7 @@ class SelectQuery extends BaseQuery implements SelectQueryInterface
 
         $field = $this->parseField($field);
 
-        $this->mandangoQuery->sort(array($field => 'asc' === $order ? 1 : -1));
+        $this->getMandangoQuery()->sort(array($field => 'asc' === $order ? 1 : -1));
 
         return $this;
     }
@@ -86,7 +82,7 @@ class SelectQuery extends BaseQuery implements SelectQueryInterface
      */
     public function limit($limit)
     {
-        $this->mandangoQuery->limit($limit);
+        $this->getMandangoQuery()->limit($limit);
 
         return $this;
     }
@@ -96,7 +92,7 @@ class SelectQuery extends BaseQuery implements SelectQueryInterface
      */
     public function skip($skip)
     {
-        $this->mandangoQuery->skip($skip);
+        $this->getMandangoQuery()->skip($skip);
 
         return $this;
     }
@@ -124,7 +120,7 @@ class SelectQuery extends BaseQuery implements SelectQueryInterface
 
     public function getIterator()
     {
-        return $this->mandangoQuery->getIterator();
+        return $this->getMandangoQuery()->getIterator();
     }
 
     /**
@@ -132,11 +128,11 @@ class SelectQuery extends BaseQuery implements SelectQueryInterface
      */
     public function createPagerfantaAdapter()
     {
-        return new MandangoAdapter($this->mandangoQuery);
+        return new MandangoAdapter($this->getMandangoQuery());
     }
 
     protected function criteriaModified()
     {
-        $this->mandangoQuery->criteria($this->getCriteria());
+        $this->getMandangoQuery()->criteria($this->getCriteria());
     }
 }

@@ -12,6 +12,7 @@
 namespace Molino\Mandango;
 
 use Molino\BaseQuery as BaseBaseQuery;
+use Molino\MolinoInterface;
 
 /**
  * The base query for Mandango.
@@ -22,12 +23,28 @@ use Molino\BaseQuery as BaseBaseQuery;
  */
 abstract class BaseQuery extends BaseBaseQuery
 {
+    private $criteria;
+
     /**
-     * Constructor.
+     * {@inheritdoc}
      */
-    public function __construct()
+    public function __construct(MolinoInterface $molino, $modelClass)
     {
+        parent::__construct($molino, $modelClass);
+
         $this->criteria = array();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMolino(MolinoInterface $molino)
+    {
+        if (!$molino instanceof Molino) {
+            throw new \InvalidArgumentException('The molino must be an instance of Molino\Mandango\Molino.');
+        }
+
+        parent::setMolino($molino);
     }
 
     /**

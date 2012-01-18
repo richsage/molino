@@ -2,31 +2,32 @@
 
 namespace Molino\Tests\Doctrine\ORM;
 
+use Molino\Doctrine\ORM\Molino;
 use Molino\Doctrine\ORM\SelectQuery;
 use Doctrine\ORM\QueryBuilder;
 
 class SelectQueryTest extends TestCase
 {
-    private $queryBuilder;
     private $query;
 
     protected function setUp()
     {
         parent::setUp();
 
-        $this->queryBuilder = $this->entityManager->createQueryBuilder()->from('Model\Doctrine\ORM\Article', 'm');
-        $this->query = new SelectQuery($this->queryBuilder);
+        $this->molino = new Molino($this->entityManager);
+        $this->modelClass = 'Model\Doctrine\ORM\Article';
+        $this->query = new SelectQuery($this->molino, $this->modelClass);
     }
 
-    public function testConstructorUpdate()
+    public function testConfigureQueryBuilder()
     {
-        $this->assertSame(QueryBuilder::SELECT, $this->queryBuilder->getType());
+        $this->assertSame(QueryBuilder::SELECT, $this->query->getQueryBuilder()->getType());
     }
 
     public function testFields()
     {
         $this->assertSame($this->query, $this->query->fields(array('foo', 'bar')));
-        $this->assertSame('SELECT m.foo, m.bar FROM Model\Doctrine\ORM\Article m', $this->queryBuilder->getDQL());
+        $this->assertSame('SELECT m.foo, m.bar FROM Model\Doctrine\ORM\Article m', $this->query->getQueryBuilder()->getDQL());
     }
 
     /**
@@ -40,19 +41,19 @@ class SelectQueryTest extends TestCase
     public function testSort()
     {
         $this->assertSame($this->query, $this->query->sort('title'));
-        $this->assertSame('SELECT m FROM Model\Doctrine\ORM\Article m ORDER BY m.title ASC', $this->queryBuilder->getDQL());
+        $this->assertSame('SELECT m FROM Model\Doctrine\ORM\Article m ORDER BY m.title ASC', $this->query->getQueryBuilder()->getDQL());
     }
 
     public function testSortAsc()
     {
         $this->assertSame($this->query, $this->query->sort('title', 'asc'));
-        $this->assertSame('SELECT m FROM Model\Doctrine\ORM\Article m ORDER BY m.title ASC', $this->queryBuilder->getDQL());
+        $this->assertSame('SELECT m FROM Model\Doctrine\ORM\Article m ORDER BY m.title ASC', $this->query->getQueryBuilder()->getDQL());
     }
 
     public function testSortDesc()
     {
         $this->assertSame($this->query, $this->query->sort('title', 'desc'));
-        $this->assertSame('SELECT m FROM Model\Doctrine\ORM\Article m ORDER BY m.title DESC', $this->queryBuilder->getDQL());
+        $this->assertSame('SELECT m FROM Model\Doctrine\ORM\Article m ORDER BY m.title DESC', $this->query->getQueryBuilder()->getDQL());
     }
 
     /**
@@ -66,13 +67,13 @@ class SelectQueryTest extends TestCase
     public function testLimit()
     {
         $this->assertSame($this->query, $this->query->limit(10));
-        $this->assertSame(10, $this->queryBuilder->getMaxResults());
+        $this->assertSame(10, $this->query->getQueryBuilder()->getMaxResults());
     }
 
     public function testSkip()
     {
         $this->assertSame($this->query, $this->query->skip(20));
-        $this->assertSame(20, $this->queryBuilder->getFirstResult());
+        $this->assertSame(20, $this->query->getQueryBuilder()->getFirstResult());
     }
 
     public function testAll()
@@ -112,6 +113,6 @@ class SelectQueryTest extends TestCase
     {
         $adapter = $this->query->createPagerfantaAdapter();
         $this->assertInstanceOf('Pagerfanta\Adapter\DoctrineORMAdapter', $adapter);
-        $this->assertEquals($this->queryBuilder->getQuery(), $adapter->getQuery());
+        $this->assertEquals($this->query->getQueryBuilder()->getQuery(), $adapter->getQuery());
     }
 }

@@ -19,6 +19,27 @@ namespace Molino;
 interface QueryInterface
 {
     /**
+     * Sets the molino.
+     *
+     * @param MolinoInterface A molino.
+     */
+    function setMolino(MolinoInterface $molino);
+
+    /**
+     * Returns the molino.
+     *
+     * @return MolinoInterface The molino.
+     */
+    function getMolino();
+
+    /**
+     * Returns the model class.
+     *
+     * @return string The model class.
+     */
+    function getModelClass();
+
+    /**
      * Adds a filter equal.
      *
      * @param string $field The field.

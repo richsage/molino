@@ -2,28 +2,15 @@
 
 namespace Molino\Tests\Mandango;
 
+use Molino\Mandango\Molino;
 use Molino\Mandango\DeleteQuery;
 
-class DeleteQueryTest extends TestCase
+class DeleteQueryTest extends \PHPUnit_Framework_TestCase
 {
-    private $repository;
-    private $query;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->repository = $this->mandango->getRepository('Model\Mandango\Article');
-        $this->query = new DeleteQuery($this->repository);
-    }
-
-    public function testGetRepository()
-    {
-        $this->assertSame($this->repository, $this->query->getRepository());
-    }
-
     public function testExecute()
     {
+        $modelClass = 'Model\Article';
+
         $repository = $this->getMockBuilder('Mandango\Repository')
             ->disableOriginalConstructor()
             ->getMock()
@@ -34,7 +21,19 @@ class DeleteQueryTest extends TestCase
             ->with(array('name' => 'foo'))
         ;
 
-        $query = new DeleteQuery($repository);
+        $mandango = $this->getMockBuilder('Mandango\Mandango')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $mandango
+            ->expects($this->any())
+            ->method('getRepository')
+            ->with($modelClass)
+            ->will($this->returnValue($repository))
+        ;
+
+        $molino = new Molino($mandango);
+        $query = new DeleteQuery($molino, $modelClass);
         $query->filterEqual('name', 'foo');
         $query->execute();
     }

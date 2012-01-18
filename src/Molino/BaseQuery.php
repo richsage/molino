@@ -18,6 +18,45 @@ namespace Molino;
  */
 abstract class BaseQuery implements QueryInterface
 {
+    private $molino;
+    private $modelClass;
+
+    /**
+     * Constructor.
+     *
+     * @param MolinoInterface $molino     The molino.
+     * @param string          $modelClass The model class.
+     */
+    public function __construct(MolinoInterface $molino, $modelClass)
+    {
+        $this->setMolino($molino);
+        $this->modelClass = $modelClass;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMolino(MolinoInterface $molino)
+    {
+        $this->molino = $molino;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMolino()
+    {
+        return $this->molino;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getModelClass()
+    {
+        return $this->modelClass;
+    }
+
     static private $filterMethods = array(
         '=='     => 'filterEqual',
         '!='     => 'filterNotEqual',

@@ -76,24 +76,24 @@ class MolinoTest extends TestCase
     {
         $query = $this->molino->createSelectQuery('Model\Doctrine\ORM\Article');
         $this->assertInstanceOf('Molino\Doctrine\ORM\SelectQuery', $query);
-        $this->assertSame($this->entityManager, $query->getQueryBuilder()->getEntityManager());
-        $this->assertSame(array('Model\Doctrine\ORM\Article'), $query->getQueryBuilder()->getRootEntities());
+        $this->assertSame($this->molino, $query->getMolino());
+        $this->assertSame('Model\Doctrine\ORM\Article', $query->getModelClass());
     }
 
     public function testCreateUpdateQuery()
     {
         $query = $this->molino->createUpdateQuery('Model\Doctrine\ORM\Article');
         $this->assertInstanceOf('Molino\Doctrine\ORM\UpdateQuery', $query);
-        $this->assertSame($this->entityManager, $query->getQueryBuilder()->getEntityManager());
-        $this->assertSame(array('Model\Doctrine\ORM\Article'), $query->getQueryBuilder()->getRootEntities());
+        $this->assertSame($this->molino, $query->getMolino());
+        $this->assertSame('Model\Doctrine\ORM\Article', $query->getModelClass());
     }
 
     public function testCreateDeleteQuery()
     {
         $query = $this->molino->createDeleteQuery('Model\Doctrine\ORM\Article');
         $this->assertInstanceOf('Molino\Doctrine\ORM\DeleteQuery', $query);
-        $this->assertSame($this->entityManager, $query->getQueryBuilder()->getEntityManager());
-        $this->assertSame(array('Model\Doctrine\ORM\Article'), $query->getQueryBuilder()->getRootEntities());
+        $this->assertSame($this->molino, $query->getMolino());
+        $this->assertSame('Model\Doctrine\ORM\Article', $query->getModelClass());
     }
 
     public function testFindOneById()
