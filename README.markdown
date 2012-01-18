@@ -168,6 +168,89 @@ To work with [Doctrine ORM](http://www.doctrine-project.org/projects/orm):
     $molino = new Molino($entityManager);
     $molino->getName() // doctrine_orm
 
+## Events
+
+You can optionally use events with molinos. In order to do that you have to use the class `EventMolino`, which receives a molino and an event dispatcher. You can use the event molino in a normal way, as it also implements the `MolinoInterface` it simply wraps a molino for use with events.
+
+`EventMolino` depends on the Symfony2 EventDispatcher component, since it must receive an instance of `Symfony\Component\EventDispatcher\EventDispatcherInterface` as event dispatcher.
+
+    use Molino\Mandango\Molino;
+    use Molino\EventMolino;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+
+    $eventDispatcher = new EventDispatcher();
+    $mandangoMolino = new Molino($mandango);
+    $molino = new EventMolino($mandangoMolino, $eventDispatcher);
+
+    // using the final molino in a normal way
+    $model = $molino->createSelectQuery('Model\Article')
+        ->filterEqual('is_active', true)
+        ->sort('created_at', 'desc')
+        ->one()
+    ;
+
+### Event classes
+
+There are two event classes used:
+
+  * `Molino\Event\ModelEvent`: for events with a model.
+  * `Molino\Event\QueryEvent`: for events with a query.
+
+You can access to the molino in both classes:
+
+    $molino = $modelEvent->getMolino();
+    $molino = $queryEvent->getMolino();
+
+And to the model or query depending on the class:
+
+    $model = $modelEvent->getModel();
+    $modelEvent->setModel($model);
+
+    $query = $queryEvent->getQuery();
+    $queryEvent->setQuery($query);
+
+### Events
+
+The events you can use are saved as constants in the class `Molino\Event\Events`. They are:
+
+  * `CREATE`: when creating a model. It uses a `ModelEvent`.
+  * `PRE_SAVE`: before saving a model. It uses a `ModelEvent`.
+  * `POST_SAVE`: after saving a model. It uses a `ModelEvent`.
+  * `PRE_REFRESH`: before refreshing a model. It uses a `ModelEvent`.
+  * `POST_REFRESH`: after refreshing a model. It uses a `ModelEvent`.
+  * `PRE_DELETE`: before deleting a model. It uses a `ModelEvent`.
+  * `POST_DELETE`: after deleting a model. It uses a `ModelEvent`.
+  * `CREATE_QUERY`: when creating any query (select, update, delete). It uses a `QueryEvent`.
+
+### Examples
+
+Assigning an author to the articles automatically when creating articles:
+
+    use Molino\Event\Events;
+    use Molino\Event\ModelEvent;
+    use Model\Article;
+
+    $author = get_author();
+
+    $eventDispather->addListener(Events::CREATE, function (ModelEvent $event) use ($author) {
+        if ($event->getModel() instanceof Article) {
+            $event->getModel()->setAuthor($author);
+        }
+    });
+
+Filtering all articles queries by an author:
+
+    use Molino\Event\Events;
+    use Molino\Event\QueryEvent;
+
+    $author = get_author();
+
+    $eventDispather->addListener(Events::CREATE_QUERY, function (QueryEvent $event) use ($author) {
+        if ('Model\Article' === $event->getQuery()->getModelClass()) {
+            $event->getQuery()->filterEqual('author_id', $author->getId());
+        }
+    });
+
 ## Limitations
 
 You can do many things with Molino, but as you can probably guess you can't do everything as its API is small (though it's like this to be compatible with different backends).
