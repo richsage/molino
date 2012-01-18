@@ -57,6 +57,13 @@ Molino has three types of queries: select, update and delete, which you can crea
     $updateQuery = $molino->createUpdateQuery('Model\Article');
     $deleteQuery = $molino->createDeleteQuery('Model\Article');
 
+### Molino and model class
+
+You can access to the molino and model class from all queries:
+
+    $molino = $query->getMolino();
+    $modelClass = $query->getModelClass();
+
 ### Filtering
 
 The three types of queries can be filtered:
