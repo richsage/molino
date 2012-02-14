@@ -45,6 +45,37 @@ class BaseQueryTest extends TestCase
         $this->assertSame(array(1 => 'foo'), $this->query->getQueryBuilder()->getParameters());
     }
 
+    /**
+     * @dataProvider filterLikeProvider
+     */
+    public function testFilterLike($value, $like)
+    {
+        $this->assertSame($this->query, $this->query->filterLike('title', $value));
+        $this->assertSame('SELECT FROM Model\Doctrine\ORM\Article m WHERE m.title LIKE ?1', $this->query->getQueryBuilder()->getDQL());
+        $this->assertSame(array(1 => $like), $this->query->getQueryBuilder()->getParameters());
+    }
+
+    /**
+     * @dataProvider filterLikeProvider
+     */
+    public function testFilterNotLike($value, $like)
+    {
+        $this->assertSame($this->query, $this->query->filterNotLike('title', $value));
+        $this->assertSame('SELECT FROM Model\Doctrine\ORM\Article m WHERE m.title NOT LIKE ?1', $this->query->getQueryBuilder()->getDQL());
+        $this->assertSame(array(1 => $like), $this->query->getQueryBuilder()->getParameters());
+    }
+
+    public function filterLikeProvider()
+    {
+        return array(
+            array('foo', 'foo'),
+            array('*foo', '%foo'),
+            array('foo*', 'foo%'),
+            array('*foo*', '%foo%'),
+            array('f*oo', 'f%oo'),
+        );
+    }
+
     public function testFilterIn()
     {
         $this->assertSame($this->query, $this->query->filterIn('title', array('foo', 'bar')));

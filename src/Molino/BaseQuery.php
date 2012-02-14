@@ -58,14 +58,16 @@ abstract class BaseQuery implements QueryInterface
     }
 
     static private $filterMethods = array(
-        '=='     => 'filterEqual',
-        '!='     => 'filterNotEqual',
-        'in'     => 'filterIn',
-        'not_in' => 'filterNotIn',
-        '>'      => 'filterGreater',
-        '<'      => 'filterLess',
-        '>='     => 'filterGreaterEqual',
-        '<='     => 'filterLessEqual',
+        '=='       => 'filterEqual',
+        '!='       => 'filterNotEqual',
+        'like'     => 'filterLike',
+        'not_like' => 'filterNotLike',
+        'in'       => 'filterIn',
+        'not_in'   => 'filterNotIn',
+        '>'        => 'filterGreater',
+        '<'        => 'filterLess',
+        '>='       => 'filterGreaterEqual',
+        '<='       => 'filterLessEqual',
     );
 
     /**
@@ -100,5 +102,26 @@ abstract class BaseQuery implements QueryInterface
         $this->$method($field, $value);
 
         return $this;
+    }
+
+    /**
+     * Parses a like value and returns an array with the strings and askterisks.
+     *
+     * @return array The value parsed.
+     */
+    public function parseLike($value)
+    {
+        $parsed = array();
+        foreach (explode('*', $value) as $v) {
+            if ('' === $v) {
+                $parsed[] = '*';
+            } else {
+                $parsed[] = $v;
+                $parsed[] = '*';
+            }
+        }
+        array_pop($parsed);
+
+        return $parsed;
     }
 }

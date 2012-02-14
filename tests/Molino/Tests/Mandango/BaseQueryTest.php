@@ -62,6 +62,35 @@ class BaseQueryTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array('_id' => array('$ne' => 1)), $this->query->getCriteria());
     }
 
+    /**
+     * @dataProvider filterLikeProvider
+     */
+    public function testFilterLike($value, $pattern)
+    {
+        $this->assertSame($this->query, $this->query->filterLike('name', $value));
+        $this->assertEquals(array('name' => new \MongoRegex($pattern)), $this->query->getCriteria());
+    }
+
+    /**
+     * @dataProvider filterLikeProvider
+     */
+    public function testFilterNotLike($value, $pattern)
+    {
+        $this->assertSame($this->query, $this->query->filterNotLike('name', $value));
+        $this->assertEquals(array('name' => array('$not' => new \MongoRegex($pattern))), $this->query->getCriteria());
+    }
+
+    public function filterLikeProvider()
+    {
+        return array(
+            array('foo', '/^foo$/'),
+            array('*foo', '/.*foo$/'),
+            array('foo*', '/^foo.*/'),
+            array('*foo*', '/.*foo.*/'),
+            array('f*oo', '/^f.*oo$/'),
+        );
+    }
+
     public function testFilterIn()
     {
         $this->assertSame($this->query, $this->query->filterIn('name', array('foo', 'bar')));

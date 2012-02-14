@@ -86,6 +86,36 @@ abstract class BaseQuery extends BaseBaseQuery
     /**
      * {@inheritdoc}
      */
+    public function filterLike($field, $value)
+    {
+        $field = $this->parseField($field);
+
+        $pattern = $this->buildLikePattern($value);
+
+        $this->criteria[$field] = new \MongoRegex($pattern);
+        $this->criteriaModified();
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function filterNotLike($field, $value)
+    {
+        $field = $this->parseField($field);
+
+        $pattern = $this->buildLikePattern($value);
+
+        $this->criteria[$field] = array('$not' => new \MongoRegex($pattern));
+        $this->criteriaModified();
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function filterIn($field, array $values)
     {
         $field = $this->parseField($field);
@@ -175,5 +205,41 @@ abstract class BaseQuery extends BaseBaseQuery
         }
 
         return $field;
+    }
+
+    private function buildLikePattern($value)
+    {
+        $start = false;
+        $pattern = '';
+        $end = false;
+
+        $parsed = $this->parseLike($value);
+        reset($parsed);
+        if ('*' !== current($parsed)) {
+            $start = true;
+        }
+        end($parsed);
+        if ('*' !== current($parsed)) {
+            $end = true;
+        }
+
+        foreach ($parsed as $v) {
+            if ('*' === $v) {
+                $pattern .= '.*';
+            } else {
+                $pattern .= $v;
+            }
+        }
+
+        if ($start) {
+            $pattern = '^'.$pattern;
+        }
+        if ($end) {
+            $pattern .= '$';
+        }
+
+        $pattern = '/'.$pattern.'/';
+
+        return $pattern;
     }
 }

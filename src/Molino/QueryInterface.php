@@ -60,6 +60,32 @@ interface QueryInterface
     function filterNotEqual($field, $value);
 
     /**
+     * Adds a filter like.
+     *
+     * The wildcard is the asterisk character.
+     *
+     *   * "Pablo*"
+     *   * "*Pablo"
+     *   * "*Pablo*"
+     *
+     * @param string $field The field.
+     * @param string $value The value.
+     *
+     * @return QueryInterface The query (fluent interface).
+     */
+    function filterLike($field, $value);
+
+    /**
+     * Adds a filter not like.
+     *
+     * @param string $field The field.
+     * @param string $value The value.
+     *
+     * @return QueryInterface The query (fluent interface).
+     */
+    function filterNotLike($field, $value);
+
+    /**
      * Adds a filter in.
      *
      * @param string $field  The field.

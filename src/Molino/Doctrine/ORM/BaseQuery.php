@@ -77,6 +77,26 @@ abstract class BaseQuery extends BaseBaseQuery
     /**
      * {@inheritdoc}
      */
+    public function filterLike($field, $value)
+    {
+        $this->andWhere('LIKE', $field, $this->buildLikeValue($value));
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function filterNotLike($field, $value)
+    {
+        $this->andWhere('NOT LIKE', $field, $this->buildLikeValue($value));
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function filterIn($field, array $values)
     {
         $this->andWhere('IN', $field, $values);
@@ -150,5 +170,18 @@ abstract class BaseQuery extends BaseBaseQuery
         $rootAlias = $this->getQueryBuilder()->getRootAlias();
         $this->getQueryBuilder()->andWhere(sprintf('%s.%s %s ?%d', $rootAlias, $field, $comparison, $parameterId));
         $this->getQueryBuilder()->setParameter($parameterId, $value);
+    }
+
+    private function buildLikeValue($value)
+    {
+        $parsed = array_map(function ($v) {
+            if ('*' === $v) {
+                $v = '%';
+            }
+
+            return $v;
+        }, $this->parseLike($value));
+
+        return implode('', $parsed);
     }
 }

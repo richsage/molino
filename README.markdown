@@ -71,6 +71,9 @@ The three types of queries can be filtered:
     $query->filterEqual('name', 'Pablo');
     $query->filterNotEqual('name', 'Pablo');
 
+    $query->filterLike('name', 'Pablo*');
+    $query->filterNotLike('name', '*Pablo');
+
     $query->filterIn('name', array('Pablo', 'Pepe'));
     $query->filterNotIn('name', array('Pablo', 'Pepe'));
 

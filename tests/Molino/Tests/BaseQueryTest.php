@@ -31,6 +31,16 @@ class BaseQuery extends OriginalBaseQuery
         $this->filters['not_equal'] = array($field, $value);
     }
 
+    public function filterLike($field, $value)
+    {
+        $this->filters['like'] = array($field, $value);
+    }
+
+    public function filterNotLike($field, $value)
+    {
+        $this->filters['not_like'] = array($field, $value);
+    }
+
     public function filterIn($field, array $values)
     {
         $this->filters['in'] = array($field, $values);
@@ -100,6 +110,18 @@ class BaseQueryTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array('not_equal' => array('name', 'Pablo')), $this->query->getFilters());
     }
 
+    public function testFilterLike()
+    {
+        $this->assertSame($this->query, $this->query->filter('name', 'like', 'Pablo*'));
+        $this->assertSame(array('like' => array('name', 'Pablo*')), $this->query->getFilters());
+    }
+
+    public function testFilterNotLike()
+    {
+        $this->assertSame($this->query, $this->query->filter('name', 'not_like', 'Pablo*'));
+        $this->assertSame(array('not_like' => array('name', 'Pablo*')), $this->query->getFilters());
+    }
+
     public function testFilterIn()
     {
         $this->assertSame($this->query, $this->query->filter('name', 'in', array('Pablo', 'Pepe')));
@@ -142,5 +164,15 @@ class BaseQueryTest extends \PHPUnit_Framework_TestCase
     public function testFilterComparisonNotSupported()
     {
         $this->query->filter('name', 'no', 'Pablo');
+    }
+
+    public function testParseLike()
+    {
+        $this->assertSame(array('Pablo'), $this->query->parseLike('Pablo'));
+        $this->assertSame(array('*', 'Pablo'), $this->query->parseLike('*Pablo'));
+        $this->assertSame(array('Pablo', '*'), $this->query->parseLike('Pablo*'));
+        $this->assertSame(array('Pa', '*', 'blo'), $this->query->parseLike('Pa*blo'));
+        $this->assertSame(array('*', 'Pablo', '*'), $this->query->parseLike('*Pablo*'));
+        $this->assertSame(array('*', 'Pa', '*', 'blo', '*'), $this->query->parseLike('*Pa*blo*'));
     }
 }
