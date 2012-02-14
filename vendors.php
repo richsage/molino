@@ -13,16 +13,16 @@ $revs = array(
 );
 
 $deps = array(
-    array('symfony', 'http://github.com/symfony/symfony', 'origin/master'),
-    array('pagerfanta', 'http://github.com/whiteoctober/Pagerfanta', 'origin/master'),
-    array('twig', 'http://github.com/fabpot/Twig', 'origin/master'),
-    array('mondator', 'http://github.com/mandango/mondator', 'origin/master'),
-    array('mandango', 'http://github.com/mandango/mandango', 'origin/master'),
-    array('doctrine-common', 'http://github.com/doctrine/common', $revs['doctrine-common']),
-    array('doctrine-dbal', 'http://github.com/doctrine/dbal', $revs['doctrine-dbal']),
-    array('doctrine-orm', 'http://github.com/doctrine/doctrine2', $revs['doctrine-orm']),
-    array('doctrine-mongodb', 'http://github.com/doctrine/mongodb', 'origin/master'),
-    array('doctrine-mongodb-odm', 'http://github.com/doctrine/mongodb-odm', 'origin/master'),
+    array('symfony', 'git://github.com/symfony/symfony', 'origin/master'),
+    array('pagerfanta', 'git://github.com/whiteoctober/Pagerfanta', 'origin/master'),
+    array('twig', 'git://github.com/fabpot/Twig', 'origin/master'),
+    array('mondator', 'git://github.com/mandango/mondator', 'origin/master'),
+    array('mandango', 'git://github.com/mandango/mandango', 'origin/master'),
+    array('doctrine-common', 'git://github.com/doctrine/common', $revs['doctrine-common']),
+    array('doctrine-dbal', 'git://github.com/doctrine/dbal', $revs['doctrine-dbal']),
+    array('doctrine-orm', 'git://github.com/doctrine/doctrine2', $revs['doctrine-orm']),
+    array('doctrine-mongodb', 'git://github.com/doctrine/mongodb', 'origin/master'),
+    array('doctrine-mongodb-odm', 'git://github.com/doctrine/mongodb-odm', 'origin/master'),
 );
 
 foreach ($deps as $dep) {
@@ -48,7 +48,7 @@ foreach ($deps as $dep) {
         $install = true;
         echo "> Installing $name\n";
 
-        system(sprintf('git clone %s %s', escapeshellarg($url), escapeshellarg($installDir)));
+        system(sprintf('git clone -q %s %s', escapeshellarg($url), escapeshellarg($installDir)));
     }
 
     if (!$install) {
