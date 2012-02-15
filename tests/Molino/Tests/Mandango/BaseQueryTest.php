@@ -9,7 +9,7 @@ class BaseQuery extends OriginalBaseQuery
 {
 }
 
-class BaseQueryTest extends \PHPUnit_Framework_TestCase
+class BaseQueryTest extends TestCase
 {
     private $molino;
     private $modelClass;
