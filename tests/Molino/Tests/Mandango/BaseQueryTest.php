@@ -17,6 +17,8 @@ class BaseQueryTest extends TestCase
 
     protected function setUp()
     {
+        parent::setUp();
+
         $this->molino = $this->getMockBuilder('Molino\Mandango\Molino')->disableOriginalConstructor()->getMock();
         $this->modelClass = 'Model\Article';
         $this->query = new BaseQuery($this->molino, $this->modelClass);
