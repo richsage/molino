@@ -18,12 +18,12 @@ namespace Molino\Event;
  */
 final class Events
 {
-    const CREATE = 'create';
-    const PRE_SAVE = 'pre_save';
-    const POST_SAVE = 'post_save';
-    const PRE_REFRESH = 'pre_refresh';
-    const POST_REFRESH = 'post_refresh';
-    const PRE_DELETE = 'pre_delete';
-    const POST_DELETE = 'post_delete';
-    const CREATE_QUERY = 'create_query';
+    const CREATE = 'molino_create';
+    const PRE_SAVE = 'molino_pre_save';
+    const POST_SAVE = 'molino_post_save';
+    const PRE_REFRESH = 'molino_pre_refresh';
+    const POST_REFRESH = 'molino_post_refresh';
+    const PRE_DELETE = 'molino_pre_delete';
+    const POST_DELETE = 'molino_post_delete';
+    const CREATE_QUERY = 'molino_create_query';
 }
